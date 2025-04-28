@@ -2,9 +2,17 @@
 
 Este README resume o processo de desenvolvimento do frontend para o teste da Anota AI, destacando as principais ações e as razões por trás das escolhas de implementação.
 
-## 1. Configuração Inicial do Projeto
+## 1. Configuração Inicial do Projeto com Arquitetura Standalone
 
-O projeto foi iniciado utilizando o Angular CLI, que fornece uma estrutura básica para a aplicação, facilitando a organização do código e a utilização das ferramentas do Angular.
+O projeto foi iniciado utilizando o Angular CLI com a opção de arquitetura standalone.
+
+**Justificativa para a Adoção da Arquitetura Standalone:**
+
+* **Simplificação da Estrutura:** A arquitetura standalone simplifica a estrutura da aplicação Angular, eliminando a necessidade de `NgModule`s para muitos cenários. Isso resulta em um código mais conciso e fácil de entender, especialmente para projetos menores ou com uma estrutura de componentes mais direta.
+* **Facilidade de Gerenciamento de Dependências:** Em componentes standalone, as dependências (outros componentes, serviços, pipes, diretivas) são importadas diretamente no componente, tornando mais explícito o que cada componente realmente utiliza. Isso facilita o gerenciamento das dependências e reduz a complexidade de rastrear o que é necessário em um `NgModule`.
+* **Menor Verbose:** A eliminação de muitos `NgModule`s reduz a quantidade de código boilerplate necessário, tornando o desenvolvimento mais rápido e o código mais limpo.
+* **Melhoria no Lazy Loading:** O lazy loading de rotas e componentes standalone tende a ser mais direto e granular, potencialmente melhorando o desempenho da aplicação ao carregar apenas o necessário sob demanda.
+* **Alinhamento com as Tendências Modernas do Angular:** A arquitetura standalone representa a direção futura do Angular, com foco em componentes mais independentes e reutilizáveis. Adotá-la desde o início garante que o projeto esteja alinhado com as práticas e evoluções mais recentes do framework.
 
 ## 2. Arquitetura de Componentes com Single-File Components (SFC)
 
@@ -23,7 +31,7 @@ A configuração e a correção dos testes unitários foram etapas cruciais para
 
 **Ações Realizadas e Justificativas:**
 
-* **Fornecimento do `HttpClient` nos Testes:** Para testar componentes e serviços que dependem do `HttpClient` (como `ItemListComponent` e `ItemService`), foi necessário configurar o módulo de testes do HttpClient (`HttpClientTestingModule` ou `provideHttpClientTesting`) no `TestBed` de cada teste. Isso permite simular as chamadas HTTP sem realizar requisições reais, tornando os testes rápidos e isolados. A transição para `provideHttpClientTesting` foi realizada devido à depreciação do `HttpClientTestingModule`, seguindo as práticas mais recentes do Angular.
+* **Fornecimento do `HttpClient` nos Testes:** Para testar componentes e serviços que dependem do `HttpClient` (como `ItemListComponent` e `ItemService`), foi necessário configurar o `HttpClient` no ambiente de teste utilizando `provideHttpClient()` e as ferramentas de teste (`provideHttpClientTesting` e `HttpTestingController`). Isso permite simular as chamadas HTTP sem realizar requisições reais, tornando os testes rápidos e isolados, e seguindo as práticas recomendadas para aplicações standalone.
 * **Simulação do `ItemService`:** Nos testes do `ItemListComponent`, o `ItemService` foi substituído por um `spyObj`. Isso isola o componente que está sendo testado do comportamento real do serviço, permitindo focar na lógica do componente e controlar o retorno do serviço para diferentes cenários.
 * **Tratamento de Erros nos Testes de Serviço:** Ao testar o tratamento de erros no `ItemService`, foi necessário inspecionar a estrutura do objeto de erro retornado pelo `HttpClient` simulado para garantir que a mensagem de erro esperada fosse verificada corretamente.
 * **Fornecimento do `Store` nos Testes:** Após a implementação do NgRx, os componentes que utilizam o `Store` (como `AppComponent` e `ItemListComponent`) precisaram ter o `Store` fornecido no `TestBed` de seus respectivos testes, utilizando `provideStore` e configurando o reducer necessário. Isso garante que o componente possa injetar e interagir com o Store durante os testes.
@@ -47,4 +55,4 @@ O NgRx Store e Effects foram implementados para gerenciar o estado da aplicaçã
 
 ## Conclusão
 
-O desenvolvimento deste frontend envolveu a configuração e a correção dos testes unitários para garantir a qualidade do código e a implementação do NgRx para um gerenciamento de estado robusto e previsível. A arquitetura de componentes adotou o padrão Single-File Component para melhorar a organização, a manutenibilidade e a coesão do código, alinhando-se com as práticas modernas do Angular.
+O desenvolvimento deste frontend envolveu a configuração inicial com a arquitetura standalone do Angular, a adoção do padrão Single-File Component para a organização dos componentes, a configuração e correção dos testes unitários para garantir a qualidade do código e a implementação do NgRx para um gerenciamento de estado robusto e previsível. As decisões arquiteturais foram tomadas visando a simplificação, a manutenibilidade e o alinhamento com as práticas modernas do Angular.
