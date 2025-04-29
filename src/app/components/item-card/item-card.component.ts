@@ -79,7 +79,7 @@ import { Item, typeMap } from '../../models/item.model';
     .item-card__content {
       padding: 0 12px;
       display: flex;
-      min-height:195px;
+      min-height:200px;
       flex-direction: column; 
     }
 
