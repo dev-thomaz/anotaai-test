@@ -10,10 +10,6 @@ import { FormsModule } from '@angular/forms';
   template: `
     <div class="app-container">
       <app-header></app-header>
-      <div class="search-container">
-        <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm" (input)="onSearch()">
-        <button><i class="fas fa-search"></i></button>
-      </div>
       <app-item-list #itemList [searchTerm]="searchTerm"></app-item-list>
     </div>
   `,
